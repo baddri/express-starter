@@ -1,0 +1,31 @@
+version: 1.0.0
+
+services:
+  express:
+    image: node:15.8.0
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 4000:4000
+    working_dir: /usr/src/app
+    environment:
+      NODE_ENV: development
+      TYPEORM_HOST: mongodb
+      TYPEORM_USERNAME:
+      TYPEORM_PASSWORD:
+    command: npm run serve
+
+  mongodb:
+    image: mongo:4.4.3
+    volumes:
+      - ecommerce:/data/db
+    command: mongod --quiet --logpath /dev/null
+    ports:
+      - 27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME:
+      MONGO_INITDB_ROOT_PASSWORD:
+      MONGO_INITDB_DATABASE: ecommerce
+
+volumes:
+  ecommerce:

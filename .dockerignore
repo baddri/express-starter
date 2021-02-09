@@ -1,0 +1,7 @@
+.vscode
+node_modules
+.editorconfig
+.env.example
+.eslintrs.js
+yarn-error.log
+README.md
