@@ -7,37 +7,59 @@ import {
   ObjectIdColumn,
   ObjectID,
 } from 'typeorm';
+import {
+  UserInterface,
+  UserProfileInterface,
+} from '../interfaces/UserInterface';
+import { Gender } from '../constants/Gender';
 import { Roles } from '../constants/Roles';
 
-export interface UserProfileInterface {
-  firstName: string;
-  lastName: string;
-}
-
-export class UserProfile {
-  constructor(firstName: string, lastName: string) {
-    this.firstName = firstName;
-    this.lastName = lastName;
+export class UserProfile implements UserProfileInterface {
+  constructor(fullName: string) {
+    this.fullName = fullName;
   }
 
   @Column()
-  public firstName: string;
-
-  @Column()
-  public lastName: string;
+  public fullName: string;
 
   @Column()
   public imageUrl: string;
+
+  @Column()
+  public gender: Gender;
+
+  @Column()
+  public birthDate: Date;
+
+  @Column()
+  public adress: string;
 }
 
 @Entity({ name: 'users' })
-export class User {
-  // mongodb usr ObjectIdColumn instead Primary Column
+export class User implements UserInterface {
   @ObjectIdColumn()
   public id: ObjectID;
 
   @Column()
   public email: string;
+
+  @Column()
+  public email_verified: boolean;
+
+  @Column()
+  public phone: boolean;
+
+  @Column()
+  public phoneArea: string;
+
+  @Column()
+  public phone_verified: boolean;
+
+  @Column()
+  public locale: string;
+
+  @Column()
+  public last_delivery_adress: string;
 
   @Column()
   public role: Roles;
@@ -52,12 +74,11 @@ export class User {
 
   @BeforeInsert()
   public async hashPassword(): Promise<void> {
-    this.role = Roles.User;
     this.password = await User.hashPassword(this.password);
   }
 
   public toString(): string {
-    return `User : ${this.userProfile.firstName} ${this.userProfile.lastName}`;
+    return `User : ${this.userProfile.fullName}`;
   }
 
   public static hashPassword(password: string): Promise<string> {

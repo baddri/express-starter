@@ -18,7 +18,6 @@ export class AuthService {
   public parseTokenFromRequest(req: express.Request): UserPayload | undefined {
     const authorization = req.header('Authorization');
     if (authorization && authorization.split(' ')[0] === 'Bearer') {
-      this.log.info('Verifying token!');
       return verifyToken(authorization.split(' ')[1], UserPayload);
     }
     return undefined;

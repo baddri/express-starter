@@ -19,12 +19,13 @@ export const graphqlLoader: MicroframeworkLoader = async (
     const schema = await buildSchema({
       resolvers: env.app.dirs.resolvers as [string, ...string[]],
       emitSchemaFile: env.graphql.output,
-      // new build schema API, register Container here
       container: Container,
     });
 
     handlingErrors(schema);
 
+    // TODO: Handle validation error
+    // TODO: add Documentation
     expressApp.use(
       env.graphql.route,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -44,6 +45,8 @@ export const graphqlLoader: MicroframeworkLoader = async (
             code: getErrorCode(error.message),
             message: getErrorMessage(error.message),
             path: error.path,
+            extensions: error.extensions,
+            locations: error.locations,
           }),
         })(request, response);
       },

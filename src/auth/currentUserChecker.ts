@@ -16,7 +16,7 @@ export function currentUserChecker(
   return async function (action: Action): Promise<User | undefined> {
     const payload = authService.parseTokenFromRequest(action.request);
     if (payload) {
-      return await userService.findUser(payload.username);
+      return await userService.findUser(payload.email);
     }
     return undefined;
   };

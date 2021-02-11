@@ -10,7 +10,8 @@ import { eventDispatchLoader } from './loaders/eventDispatchLoader';
 import { typeormLoader } from './loaders/typeormLoader';
 import { expressLoader } from './loaders/expressLoader';
 import { homeLoader } from './loaders/homeLoader';
-import { graphqlLoader } from './loaders/graphqlLoader';
+import { apolloLoader } from './loaders/apolloLoader';
+// import { graphqlLoader } from './loaders/graphqlLoader';
 // import { publicLoader } from 'loaders/publicLoader';
 
 const log = new Logger(__filename);
@@ -22,7 +23,8 @@ bootstrapMicroframework({
     typeormLoader,
     expressLoader,
     homeLoader,
-    graphqlLoader,
+    apolloLoader,
+    // graphqlLoader,
     // publicLoader
   ],
 })

@@ -86,8 +86,7 @@ export class UserController {
         email: user.email,
         role: user.role,
         imageUrl: user.userProfile.imageUrl,
-        firstName: user.userProfile.firstName,
-        lastName: user.userProfile.lastName,
+        fullName: user.userProfile.fullName,
       };
     }
   }
@@ -97,13 +96,12 @@ export class UserController {
   public async create(
     @Body()
     body: {
-      firstName: string;
-      lastName: string;
+      fullName: string;
       email: string;
       password: string;
     },
   ): Promise<User | undefined> {
-    const userProfile = new UserProfile(body.firstName, body.lastName);
+    const userProfile = new UserProfile(body.fullName);
     const user = new User();
     user.userProfile = userProfile;
     user.email = body.email;

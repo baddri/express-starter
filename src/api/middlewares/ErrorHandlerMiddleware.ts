@@ -8,6 +8,11 @@ import {
 import { Logger, LoggerInterface } from '../../decorators/Logger';
 import { env } from '../../env';
 
+interface CustomHttpError extends HttpError {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  errors?: any;
+}
+
 @Middleware({ type: 'after' })
 export class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {
   public isProduction = env.isProduction;
@@ -15,7 +20,7 @@ export class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {
   constructor(@Logger(__filename) private log: LoggerInterface) {}
 
   public error(
-    error: HttpError,
+    error: CustomHttpError,
     req: express.Request,
     res: express.Response,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -25,7 +30,7 @@ export class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {
     res.json({
       name: error.name,
       message: error.message,
-      // errors: error[`errors`] || [],
+      errors: error[`errors`] || [],
     });
 
     if (this.isProduction) {

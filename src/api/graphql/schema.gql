@@ -3,30 +3,61 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Mutation {
-  create(user: UserInput!): User!
-}
-
-type Query {
-  user(email: String!): User!
-  users: [User!]!
-}
-
-"""User Object."""
-type User {
+input CreateUserInput {
   email: String!
-  id: ID!
-  userProfile: UserProfile!
-}
-
-input UserInput {
-  email: String!
-  firstName: String!
-  lastName: String!
+  fullName: String!
   password: String!
 }
 
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+type Mutation {
+  changePassword(passwords: PasswordChangeInput!): User!
+  create(user: CreateUserInput!): User!
+  login(email: String!, password: String!): String!
+  updateProfile(userProfile: UserProfileInput!): User!
+}
+
+input PasswordChangeInput {
+  newPassword: String!
+  oldPassword: String!
+}
+
+type Query {
+  availableEmail(email: String!): Boolean!
+  user: User!
+  users: [User!]!
+}
+
+"""User Object"""
+type User {
+  email: String!
+  email_verified: Boolean!
+  id: ID!
+  last_delivery_adress: String
+  locale: String
+  phone: Boolean
+  phoneArea: String
+  phone_verified: Boolean
+  role: String!
+  userProfile: UserProfile!
+}
+
 type UserProfile {
-  firstName: String!
-  lastName: String!
+  adress: String
+  birthDate: DateTime
+  fullName: String!
+  gender: String
+  imageUrl: String
+}
+
+input UserProfileInput {
+  adress: String
+  birthDate: DateTime
+  fullName: String
+  gender: String
+  imageUrl: String
 }
